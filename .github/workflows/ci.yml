@@ -1,0 +1,75 @@
+name: CI
+on:
+  push:
+    branches: [main, build/document-assistant-v1]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: assistant
+          POSTGRES_PASSWORD: assistant
+          POSTGRES_DB: assistant_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U assistant -d assistant_test"
+          --health-interval 5s --health-timeout 3s --health-retries 15
+    env:
+      TEST_DATABASE_URL: postgresql://assistant:assistant@localhost:5432/assistant_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e "backend[dev]"
+      - run: ruff check backend
+      - run: pytest -q backend/tests --junitxml=test-results/backend.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-results
+          path: test-results/
+
+  full-stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-audit --no-fund
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: docker compose config --quiet
+      - run: docker compose up --build --detach --wait --wait-timeout 180
+      - run: python evaluations/evaluate.py
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: npm run test:e2e
+        working-directory: frontend
+      - name: Container logs
+        if: failure()
+        run: docker compose logs --no-color
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-results
+          path: frontend/test-results/
+      - name: Stop containers
+        if: always()
+        run: docker compose down --volumes

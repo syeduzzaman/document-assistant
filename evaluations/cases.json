@@ -1,0 +1,62 @@
+[
+  {
+    "question": "How many days of annual leave do employees receive?",
+    "expected_filename": "employee-handbook.md",
+    "expected_fragment": "30 days"
+  },
+  {
+    "question": "How many days per week may employees work remotely?",
+    "expected_filename": "employee-handbook.md",
+    "expected_fragment": "three days"
+  },
+  {
+    "question": "What is the annual learning budget?",
+    "expected_filename": "employee-handbook.md",
+    "expected_fragment": "800"
+  },
+  {
+    "question": "What is the first response target for a P1 incident?",
+    "expected_filename": "support-playbook.md",
+    "expected_fragment": "15 minutes"
+  },
+  {
+    "question": "What is the first response target for a P2 incident?",
+    "expected_filename": "support-playbook.md",
+    "expected_fragment": "four business hours"
+  },
+  {
+    "question": "How often does the incident commander post a status update?",
+    "expected_filename": "support-playbook.md",
+    "expected_fragment": "30 minutes"
+  },
+  {
+    "question": "When do database backups run?",
+    "expected_filename": "disaster-recovery.md",
+    "expected_fragment": "02:00"
+  },
+  {
+    "question": "What is the recovery point objective RPO?",
+    "expected_filename": "disaster-recovery.md",
+    "expected_fragment": "24 hours"
+  },
+  {
+    "question": "What is the recovery time objective RTO?",
+    "expected_filename": "disaster-recovery.md",
+    "expected_fragment": "four hours"
+  },
+  {
+    "question": "How often does the team perform a disaster recovery exercise?",
+    "expected_filename": "disaster-recovery.md",
+    "expected_fragment": "quarter"
+  },
+  {
+    "question": "Which astronauts visited Jupiter?",
+    "expected_filename": null,
+    "expected_fragment": null
+  },
+  {
+    "question": "What ingredients belong in chocolate cheesecake?",
+    "expected_filename": null,
+    "expected_fragment": null
+  }
+]

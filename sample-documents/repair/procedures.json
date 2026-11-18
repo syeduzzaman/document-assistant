@@ -1,0 +1,27 @@
+[
+  {
+    "procedure": "Repair estimate evidence",
+    "revisions": [
+      {
+        "file": "estimate-evidence-v1.md",
+        "label": "v1",
+        "status": "current"
+      }
+    ]
+  },
+  {
+    "procedure": "Supplement approval",
+    "revisions": [
+      {
+        "file": "supplement-approval-v1.md",
+        "label": "v1",
+        "status": "superseded"
+      },
+      {
+        "file": "supplement-approval-v2.md",
+        "label": "v2",
+        "status": "current"
+      }
+    ]
+  }
+]
